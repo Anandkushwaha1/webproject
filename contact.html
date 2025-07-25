@@ -1,0 +1,83 @@
+<!-- contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us | AllCourses</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>AllCourses</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="contact.html">Contact</a>
+      <a href="register.html">Register</a>
+    </nav>
+  </header>
+
+  <section class="auth-section">
+    <h2>Contact Us via Telegram</h2>
+    <form id="contactForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" placeholder="Enter your name" required />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
+
+      <label for="message">Message:</label>
+      <textarea id="message" rows="5" placeholder="Write your message here..." required></textarea>
+
+      <button type="submit" class="btn">Send<br><small>( Only Course Queries Please)</small></button>
+    </form>
+    <p id="status"></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AllCourses</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById("contactForm");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      const telegramToken = "YOUR_BOT_TOKEN"; // 🔁 Replace with your bot token
+      const chatId = "YOUR_CHAT_ID"; // 🔁 Replace with your Telegram user ID
+      const telegramMessage = `📩 New Message from AllCourses\n\n👤 Name: ${name}\n📧 Email: ${email}\n💬 Message: ${message}`;
+
+      fetch(`https://api.telegram.org/bot8380092405:AAH9SE-WCwJm9Y1iJiDUeBZW8rEW0yi-DAw/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: 6067259281,
+          text: telegramMessage
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          status.innerText = "✅ Message sent to Telegram!";
+          form.reset();
+        } else {
+          status.innerText = "❌ Failed to send message.";
+        }
+      })
+      .catch(error => {
+        status.innerText = "❌ Error: " + error;
+      });
+    });
+  </script>
+  
+
+</body>
+</html>
